@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Detection Result</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* background-color: #f8f9fa; */
+            font-family: "Exo 2", sans-serif;
+            padding: 20px;
+            background: #eef0ef;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin: 30px auto;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            padding: 15px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .card-title {
+            color: #fff;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .video-frame {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 10px;
+            background: #000;
+        }
+
+        .info-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .info-card {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-card h5 {
+            margin-bottom: 10px;
+            color: #034f84;
+            font-size: 1.2rem;
+        }
+
+        .info-card p {
+            margin-bottom: 8px;
+        }
+
+        .detection-label {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .detection-label h5 {
+            color: #333;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .progress-container {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            flex-direction: row-reverse;
+        }
+
+        .circle-progress {
+            width: 150px;
+            height: 150px;
+        }
+
+        .progress-circle {
+            stroke: #ccc;
+            fill: none;
+            stroke-width: 8;
+        }
+
+        .progress-bar {
+            stroke: #4CAF50;
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform-origin: 50% 50%;
+            transform: rotate(-90deg);
+            transition: stroke-dasharray 0.3s ease;
+        }
+
+        .progress-label {
+            font-size: 24px;
+            fill: #333;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        .result-text {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00ff88;
+            letter-spacing: 1px;
+            /* animation: fadeIn 1s ease-in; */
+        }
+
+        @media (max-width: 768px) {
+            .card-body {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .video-frame {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Deepfake Detection Result</h1>
+        </div>
+
+        <div class="card-body">
+            <video controls class="video-frame">
+                <source src="{{ video_url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <div class="info-section">
+                <div class="info-card">
+                    <h5>Video Information:</h5>
+                    <p><strong>Name:</strong> {{ video_info['name'] }}</p>
+                    <p><strong>Size:</strong> {{ video_info['size'] }}</p>
+                    <p><strong>User:</strong> {{ video_info['user'] }}</p>
+                    <p><strong>Date:</strong> {{ video_info['source'] }}</p>
+                </div>
+                <div class="result-text" id="resultText">Analyzing...</div>
+                <div class="detection-label">
+                    <h5>Deepfake Detection Rate:</h5>
+                </div>
+
+                <div class="progress-container">
+                    <svg class="circle-progress" viewBox="0 0 150 150">
+                        <circle class="progress-circle" cx="75" cy="75" r="70"></circle>
+                        <circle class="progress-bar" cx="75" cy="75" r="70" stroke-dasharray="0 440"></circle>
+                        <text class="progress-label" x="75" y="82">0%</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const progressValue = parseFloat("{{ video_info['per'] }}") || 75;
+        const totalValue = 440;
+        const progressBar = document.querySelector(".progress-bar");
+        const progressText = document.querySelector(".progress-label");
+        const resultText = document.getElementById("resultText");
+
+        let current = 0;
+
+        const updateProgress = () => {
+            if (current <= progressValue) {
+                const dash = (current / 100) * totalValue;
+                progressBar.style.strokeDasharray = `${dash} ${totalValue}`;
+                progressText.textContent = `${current.toFixed(0)}%`;
+
+                if (current < 50) {
+                    progressBar.style.stroke = "#ff3b3b"; // red
+                    resultText.textContent = "Deepfake Detected";
+                    resultText.style.color = "#ff3b3b";
+                } else if (current < 80) {
+                    progressBar.style.stroke = "#FFA500"; // orange
+                    resultText.textContent = "Possibly Manipulated";
+                    resultText.style.color = "#FFA500";
+                } else {
+                    progressBar.style.stroke = "#4CAF50"; // green
+                    resultText.textContent = "Real Video";
+                    resultText.style.color = "#4CAF50";
+                }
+
+                current++;
+                requestAnimationFrame(updateProgress);
+            }
+        };
+
+        updateProgress();
+    </script>
+</body>
+
+</html>

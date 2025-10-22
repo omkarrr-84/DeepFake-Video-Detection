@@ -2,94 +2,184 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepfake Detection Result</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeepFake Video Detyection-Result</title>
+
+    <!-- Font & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
         }
 
         body {
-            /* background-color: #f8f9fa; */
-            font-family: "Exo 2", sans-serif;
-            padding: 20px;
-            background: #eef0ef;
-        }
-
-        .card {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            margin: 30px auto;
-            overflow: hidden;
-        }
-
-        .card-header {
-            background-color: #007bff;
-            padding: 15px;
-            border-radius: 15px 15px 0 0;
-        }
-
-        .card-title {
+            /* background: linear-gradient(135deg, #1a1028 0%, #0d0a1a 50%, #070711 100%); */
+            background-attachment: fixed;
             color: #fff;
-            font-size: 1.5rem;
-            text-align: center;
-        }
-
-        .card-body {
-            padding: 20px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            /* padding: 65px 20px; */
+            /* background: linear-gradient(135deg, #8E83F5, #B27BF5, #6F90FB); */
+            /* background: linear-gradient(135deg, #0D1318, #151921, #1A1822); */
+            background: linear-gradient(135deg, #000101, #060B0F, #0D1318, #151921, #1A1822);
         }
 
-        .video-frame {
-            width: 100%;
-            max-width: 350px;
-            border-radius: 10px;
-            background: #000;
+        .main-content {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            align-items: center;
+            margin: 5rem 0;
         }
 
-        .info-section {
+        .container1 {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 25rem;
+            width: 27rem;
+            margin-top: -2.9rem;
+        }
+
+        .container2 {
+            display: flex;
+            gap: 12px;
+            height: 28rem;
+            width: 25rem;
+            border: none;
+        }
+
+        .card1 {
+            text-align: center;
             flex: 1;
-            min-width: 250px;
+            backdrop-filter: blur(5px);
+            /* border: 2.5px dotted #646464; */
+            border-radius: 12px;
+            padding: 10px 15px;
+            background: #121212;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .info-card {
-            background-color: #f1f1f1;
-            padding: 15px;
-            border-radius: 10px;
+        .card2 {
+            text-align: center;
+            flex: 1;
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            padding: 25px 15px;
+            background: #121212;
+            background-image: url(../static/Background-img.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-blend-mode: lighten;
+
         }
 
-        .info-card h5 {
+        .card2,
+        .card1 i {
+            font-size: 30px;
+            color: #9c7aff;
             margin-bottom: 10px;
-            color: #034f84;
-            font-size: 1.2rem;
         }
 
-        .info-card p {
-            margin-bottom: 8px;
+        .card2,
+        .card1 p {
+            color: #bbb;
+            font-size: 0.8rem;
         }
 
-        .detection-label {
-            margin-top: 25px;
+        .video-info p,
+        h5 {
+            font-size: 0.7rem;
+            color: #777;
+        }
+
+        .file-info p i {
+            background-color: #5a5a5a80;
+            border-radius: 50%;
+            height: 25px;
+            width: 25px;
+            text-align: center;
+            padding: 8px 0px 0px 0px;
+            color: #c1c1c1;
+            margin-right: 9px;
+        }
+
+        .video-info {
+            background-color: #141414;
+            padding: 7px 0px 8px 12px;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            bottom: 0;
+            right: 0;
+        }
+
+        /* Footer / Buttons */
+        .footer {
+            margin-top: 20px;
             text-align: center;
         }
+
+        .footer p {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #7b5eff, #b07eff);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(123, 94, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(123, 94, 255, 0.6);
+        }
+
+        .btn.clear {
+            background: transparent;
+            border: 1px solid #7b5eff;
+            color: #7b5eff;
+            box-shadow: none;
+        }
+
+        .btn.clear:hover {
+            background: #7b5eff;
+            color: #fff;
+        }
+
+
+
+        /* detection result */
 
         .detection-label h5 {
-            color: #333;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
         }
 
         .progress-container {
@@ -100,8 +190,8 @@
         }
 
         .circle-progress {
-            width: 150px;
-            height: 150px;
+            width: 100px;
+            height: 100px;
         }
 
         .progress-circle {
@@ -122,58 +212,74 @@
 
         .progress-label {
             font-size: 24px;
-            fill: #333;
+            fill: #D1CBC7;
             font-weight: bold;
             text-anchor: middle;
             dominant-baseline: middle;
         }
 
         .result-text {
-            margin-top: 25px;
+            margin: 30px 0px;
             text-align: center;
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 0.9rem;
             color: #00ff88;
-            letter-spacing: 1px;
-            /* animation: fadeIn 1s ease-in; */
+            letter-spacing: 0.7px;
         }
 
-        @media (max-width: 768px) {
-            .card-body {
-                flex-direction: column;
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column-reverse;
                 align-items: center;
+                gap: 90px;
+                margin-bottom: 5rem;
+                margin-top: 0;
             }
 
-            .video-frame {
-                max-width: 100%;
+            .container2 {
+                margin-top: 5rem;
+                width: 22rem;
+                margin-bottom: -1rem;
+            }
+
+            .container1 {
+                width: 22rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="card">
-        <div class="card-header">
-            <h1 class="card-title">Deepfake Detection Result</h1>
+    <div class="main-content">
+        <div class="container1">
+            <!-- Source Face -->
+            <div class="card1">
+                <video controls class="video-frame" style="width: 100%">
+                    <source src="{{ video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="video-info">
+                <h5 style="font-size: 0.8rem;">Video Information:</h5>
+                <p><strong>Name:</strong> {{ video_info['name'] }}</p>
+                <p><strong>Size:</strong> {{ video_info['size'] }}</p>
+                <p><strong>User:</strong> {{ video_info['user'] }}</p>
+                <p><strong>Date:</strong> {{ video_info['source'] }}</p>
+            </div>
+            <div class="footer">
+                <p>Unleash your deepfake creativity<br>Shape Reality with Soul Bytes</p>
+                <form action="{{ url_for('scan_again') }}" method="get">
+                    <button class="btn">Scan Again ➜</button>
+                </form>
+            </div>
         </div>
-
-        <div class="card-body">
-            <video controls class="video-frame">
-                <source src="{{ video_url }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-
-            <div class="info-section">
-                <div class="info-card">
-                    <h5>Video Information:</h5>
-                    <p><strong>Name:</strong> {{ video_info['name'] }}</p>
-                    <p><strong>Size:</strong> {{ video_info['size'] }}</p>
-                    <p><strong>User:</strong> {{ video_info['user'] }}</p>
-                    <p><strong>Date:</strong> {{ video_info['source'] }}</p>
-                </div>
+        <div class="container2">
+            <!-- Result -->
+            <div class="card2">
+                <h2>DeepFake Video Detection</h2>
+                <p style="font-size: 0.9rem; margin-top: 1rem; ">See The Result</p>
                 <div class="result-text" id="resultText">Analyzing...</div>
                 <div class="detection-label">
-                    <h5>Deepfake Detection Rate:</h5>
+                    <h5>Detection Rate:</h5>
                 </div>
 
                 <div class="progress-container">
@@ -186,13 +292,13 @@
             </div>
         </div>
     </div>
-
     <script>
         const progressValue = parseFloat("{{ video_info['per'] }}") || 75;
         const totalValue = 440;
         const progressBar = document.querySelector(".progress-bar");
         const progressText = document.querySelector(".progress-label");
         const resultText = document.getElementById("resultText");
+        // const redirct = document.querySelector(".btn");
 
         let current = 0;
 
@@ -220,7 +326,9 @@
                 requestAnimationFrame(updateProgress);
             }
         };
-
+        const redirect = () => {
+            window.location.href = "./index.html"
+        };
         updateProgress();
     </script>
 </body>

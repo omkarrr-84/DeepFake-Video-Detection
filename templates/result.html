@@ -39,6 +39,7 @@
             gap: 28px;
             align-items: center;
             margin: 5rem 0;
+            margin-bottom: 15rem;
         }
 
         .container1 {
@@ -59,15 +60,13 @@
         }
 
         .card1 {
+            display: flex;
+            justify-content: center;
             text-align: center;
             flex: 1;
-            backdrop-filter: blur(5px);
-            /* border: 2.5px dotted #646464; */
             border-radius: 12px;
             padding: 10px 15px;
             background: #121212;
-            cursor: pointer;
-            transition: 0.3s;
         }
 
         .card2 {
@@ -231,7 +230,7 @@
                 flex-direction: column-reverse;
                 align-items: center;
                 gap: 90px;
-                margin-bottom: 5rem;
+                margin-bottom: 18rem;
                 margin-top: 0;
             }
 
@@ -245,6 +244,14 @@
                 width: 22rem;
             }
         }
+
+
+        .video-frame {
+            width: 100%;
+            max-width: 20rem;
+            /* Limit size of big videos */
+            height: auto;
+        }
     </style>
 </head>
 
@@ -253,7 +260,7 @@
         <div class="container1">
             <!-- Source Face -->
             <div class="card1">
-                <video controls class="video-frame" style="width: 100%">
+                <video controls class="video-frame" id="uploadedVideo">
                     <source src="{{ video_url }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -293,6 +300,13 @@
         </div>
     </div>
     <script>
+
+
+
+
+
+
+
         const progressValue = parseFloat("{{ video_info['per'] }}") || 75;
         const totalValue = 440;
         const progressBar = document.querySelector(".progress-bar");

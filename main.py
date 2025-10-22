@@ -64,5 +64,10 @@ def result():
 
     return render_template('result.html', video_url=video_path2, video_info=video_info)
 
+@app.route('/scan_again')
+def scan_again():
+    return redirect(url_for('index'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

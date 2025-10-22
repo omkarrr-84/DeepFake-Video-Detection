@@ -2,52 +2,280 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepfake Video Detection</title>
-    <link rel="stylesheet" href="../static/styles.css">
-    <!-- Optional: Google Fonts for modern look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeepFake Video Detyection-Home</title>
+
+    <!-- Font & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            /* background: linear-gradient(135deg, #1a1028 0%, #0d0a1a 50%, #070711 100%); */
+            background-attachment: fixed;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            /* padding: 65px 20px; */
+            /* background: linear-gradient(135deg, #8E83F5, #B27BF5, #6F90FB); */
+            /* background: linear-gradient(135deg, #0D1318, #151921, #1A1822); */
+            background: linear-gradient(135deg, #000101, #060B0F, #0D1318, #151921, #1A1822);
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            align-items: center;
+            margin: 5rem 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 25rem;
+            width: 27rem;
+            margin-top: 5rem;
+        }
+
+        .container2 {
+            display: flex;
+            gap: 12px;
+            height: 28rem;
+            width: 25rem;
+            border: none;
+        }
+
+        .card1 {
+            text-align: center;
+            flex: 1;
+            backdrop-filter: blur(5px);
+            border: 2.5px dotted #646464;
+            border-radius: 12px;
+            padding: 40px 15px;
+            background: #121212;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card2 {
+            text-align: center;
+            flex: 1;
+            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            padding: 25px 15px;
+            background: #121212;
+            background-image: url(../static/Background-img.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-blend-mode: lighten;
+
+        }
+
+        .card1:hover {
+            box-shadow: 0 0 25px rgba(123, 94, 255, 0.3);
+            border-color: #a68cff;
+            background: rgba(25, 20, 45, 0.7);
+            box-shadow: 0 0 20px rgba(123, 94, 255, 0.2);
+            transform: scale(1.01);
+        }
+
+        .card2,
+        .card1 i {
+            font-size: 30px;
+            color: #9c7aff;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .card2,
+        .card1 p {
+            color: #bbb;
+            font-size: 0.8rem;
+        }
+
+        .file-info p {
+            font-size: 0.7rem;
+            color: #777;
+        }
+
+        .file-info p i {
+            background-color: #5a5a5a80;
+            border-radius: 50%;
+            height: 25px;
+            width: 25px;
+            text-align: center;
+            padding: 8px 0px 0px 0px;
+            color: #c1c1c1;
+            margin-right: 9px;
+        }
+
+        .file-info {
+            background-color: #141414;
+            padding: 7px 0px 8px 12px;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            bottom: 0;
+            right: 0;
+        }
+
+        /* Preview section */
+        .preview-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        /* Footer / Buttons */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 0.7rem;
+            color: #aaa;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #7b5eff, #b07eff);
+            color: white;
+            padding: 5px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(123, 94, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(123, 94, 255, 0.6);
+        }
+
+        .btn.clear {
+            background: transparent;
+            border: 1px solid #7b5eff;
+            color: #7b5eff;
+            box-shadow: none;
+        }
+
+        .btn.clear:hover {
+            background: #7b5eff;
+            color: #fff;
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column-reverse;
+                align-items: center;
+                gap: 0px;
+                margin-bottom: 5rem;
+            }
+
+            .container2 {
+                margin-top: 5rem;
+                width: 22rem;
+                margin-bottom: -1rem;
+            }
+
+            form {
+                width: 22rem;
+            }
+
+            video {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="card">
-            <!-- Background video -->
-            <video class="card-bg" autoplay muted loop>
-                <source src="../static/2_Background_3840x2160.mov" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-
-            <!-- Card content -->
-            <div class="card-content">
-                <h1>Deepfake Video Detection</h1>
-                <p>Upload your video below to check for deepfake content</p>
-
-                <form action="/upload" method="post" id="uploadForm" enctype="multipart/form-data">
-                    <label for="customFile" class="form-label">Choose file</label>
-                    <input type="file" id="customFile" name="file" onchange="updateFileName()">
-                    <button type="submit" method="post">Upload Video</button>
-                </form>
-
-                <!-- <p id="message"></p>
-                <video id="videoPreview" controls></video> -->
+    <div class="main-content">
+        <div class="container1">
+            <!-- Video Upload -->
+            <form action="/upload" method="post" id="uploadForm" enctype="multipart/form-data">
+                <div class="card1" style="color: #926CF4;" draggable="true">
+                    <h2>Upload</h2>
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p>Drop file here or Browse files</p>
+                    <p id="file-name">No file selected</p>
+                    <input type="file" id="videoFile" name="file" accept="video/*" />
+                </div>
+                <div class="file-info">
+                    <p><i class="fa-solid fa-video"></i>Videos: MP4 (max 50MB)</p>
+                </div>
+                <div class="footer">
+                    <p>Unleash your deepfake creativity<br>Shape Reality with Soul Bytes</p>
+                    <button type="submit" class="btn">Scan ➜</button>
+                    <button type="reset" class="btn clear" id="clearBtn">Clear</button>
+                </div>
+            </form>
+        </div>
+        <div class="container2">
+            <!-- Intro -->
+            <div class="card2">
+                <h2>DeepFake Video Detection</h2>
+                <p>Scan & Detect <span style="color: #cb2653;">DeepFake</span> Videos</p>
+                <div class="preview-box" id="previewBox">
+                    <p>Scan a suspicious video to find out if it’s synthetically manipulated.
+                        Contact Us for on-premise solutions.</p>
+                    <video autoplay controls controlslist="nodownload" disablepictureinpicture
+                        style="width: 95%; border-radius: 5px;">
+                        <source src="../static/Deepfake-Demo-Video.mp4" type="video/mp4" />
+                    </video>
+                </div>
             </div>
         </div>
     </div>
-
     <script>
-        function updateFileName() {
-            var fileInput = document.getElementById("customFile");
+        const fileInput = document.getElementById('videoFile');
+        const fileNameDisplay = document.getElementById('file-name');
+        const clearButton = document.getElementById('clearBtn');
+        fileInput.addEventListener('change', () => {
             if (fileInput.files.length > 0) {
-                alert("Selected file: " + fileInput.files[0].name);
+                fileNameDisplay.textContent = fileInput.files[0].name;
+            } else {
+                fileNameDisplay.textContent = 'No file selected';
             }
-            customFile.style.color = "black"
-        }
+        });
+
+        clearButton.addEventListener("reset", function () {
+            fileNameDisplay.textContent = "No file selected";
+        });
+        // Clears the upload field when returning to main page
+        window.onload = () => {
+            const uploadForm = document.getElementById('uploadForm');
+            if (uploadForm) uploadForm.reset();
+        };
     </script>
+
 </body>
 
 </html>

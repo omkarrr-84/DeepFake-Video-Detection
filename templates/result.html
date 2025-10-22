@@ -69,6 +69,13 @@
             background: #121212;
         }
 
+        .video-frame {
+            width: 100%;
+            max-width: 20rem;
+            /* Limit size of big videos */
+            height: auto;
+        }
+
         .card2 {
             text-align: center;
             flex: 1;
@@ -244,14 +251,6 @@
                 width: 22rem;
             }
         }
-
-
-        .video-frame {
-            width: 100%;
-            max-width: 20rem;
-            /* Limit size of big videos */
-            height: auto;
-        }
     </style>
 </head>
 
@@ -300,13 +299,6 @@
         </div>
     </div>
     <script>
-
-
-
-
-
-
-
         const progressValue = parseFloat("{{ video_info['per'] }}") || 75;
         const totalValue = 440;
         const progressBar = document.querySelector(".progress-bar");

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DeepFake Video Detyection-Home</title>
+    <title>DeepFake Video Detection - Home</title>
 
     <!-- Font & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -19,7 +19,7 @@
         }
 
         body {
-            /* background: linear-gradient(135deg, #1a1028 0%, #0d0a1a 50%, #070711 100%); */
+            background: linear-gradient(135deg, #000101, #060B0F, #0D1318, #151921, #1A1822);
             background-attachment: fixed;
             color: #fff;
             display: flex;
@@ -27,10 +27,6 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            /* padding: 65px 20px; */
-            /* background: linear-gradient(135deg, #8E83F5, #B27BF5, #6F90FB); */
-            /* background: linear-gradient(135deg, #0D1318, #151921, #1A1822); */
-            background: linear-gradient(135deg, #000101, #060B0F, #0D1318, #151921, #1A1822);
         }
 
         .main-content {
@@ -81,14 +77,12 @@
             background-repeat: no-repeat;
             background-size: 100% 100%;
             background-blend-mode: lighten;
-
         }
 
         .card1:hover {
             box-shadow: 0 0 25px rgba(123, 94, 255, 0.3);
             border-color: #a68cff;
             background: rgba(25, 20, 45, 0.7);
-            box-shadow: 0 0 20px rgba(123, 94, 255, 0.2);
             transform: scale(1.01);
         }
 
@@ -138,7 +132,6 @@
             right: 0;
         }
 
-        /* Preview section */
         .preview-box {
             display: flex;
             flex-direction: column;
@@ -148,7 +141,6 @@
             margin-top: 40px;
         }
 
-        /* Footer / Buttons */
         .footer {
             margin-top: 20px;
             text-align: center;
@@ -189,6 +181,44 @@
         .btn.clear:hover {
             background: #7b5eff;
             color: #fff;
+        }
+
+        /* Loader start from here */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: #fff;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .loader-gif {
+            width: 66px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Fade animation for loading text */
+        #loaderText {
+            margin-top: 0.7rem;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            font-size: 0.9rem;
+        }
+
+        #loaderText.show {
+            opacity: 1;
         }
 
         @media (max-width: 900px) {
@@ -255,10 +285,22 @@
             </div>
         </div>
     </div>
+
+    <!-- Loader Overlay -->
+    <div id="loaderOverlay" class="loader-overlay" style="display: none;">
+        <img src="../static/bg remove gif.gif" alt="Loading..." class="loader-gif" />
+        <p id="loaderText">Uploading... Please wait</p>
+    </div>
+
     <script>
         const fileInput = document.getElementById('videoFile');
         const fileNameDisplay = document.getElementById('file-name');
         const clearButton = document.getElementById('clearBtn');
+        const loaderOverlay = document.getElementById('loaderOverlay');
+        const uploadForm = document.getElementById('uploadForm');
+        const loaderText = document.getElementById('loaderText');
+
+        // Show selected file name
         fileInput.addEventListener('change', () => {
             if (fileInput.files.length > 0) {
                 fileNameDisplay.textContent = fileInput.files[0].name;
@@ -267,16 +309,53 @@
             }
         });
 
-        clearButton.addEventListener("reset", function () {
+        // Clear file name on reset
+        clearButton.addEventListener("click", () => {
             fileNameDisplay.textContent = "No file selected";
         });
-        // Clears the upload field when returning to main page
+
+        // Loader messages (loop continuously)
+        const messages = [
+            "Uploading video... Please wait",
+            "Analyzing frames...",
+            "Detecting patterns...",
+            "Processing results...",
+            "Comparing facial patterns...",
+            "Finalizing detection results..."
+        ];
+
+        function startLoaderMessages() {
+            let index = 0;
+            loaderText.classList.add("show");
+            loaderText.textContent = messages[index];
+
+            setInterval(() => {
+                loaderText.classList.remove("show"); // fade out
+                setTimeout(() => {
+                    index = (index + 1) % messages.length;
+                    loaderText.textContent = messages[index];
+                    loaderText.classList.add("show"); // fade in
+                }, 1000);
+            }, 3000); // change every 3 seconds
+        }
+
+        // Show loader on form submit
+        uploadForm.addEventListener('submit', (e) => {
+            if (fileInput.files.length === 0) {
+                e.preventDefault();
+                alert("Please select a video file first!");
+                return;
+            }
+
+            loaderOverlay.style.display = 'flex';
+            startLoaderMessages();
+        });
+
+        // Reset file input when page reloads
         window.onload = () => {
-            const uploadForm = document.getElementById('uploadForm');
-            if (uploadForm) uploadForm.reset();
+            uploadForm.reset();
         };
     </script>
-
 </body>
 
 </html>

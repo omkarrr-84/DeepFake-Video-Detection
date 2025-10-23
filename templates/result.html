@@ -314,14 +314,14 @@
                 progressBar.style.strokeDasharray = `${dash} ${totalValue}`;
                 progressText.textContent = `${current.toFixed(0)}%`;
 
-                if (current < 50) {
+                if (current > 50) {
                     progressBar.style.stroke = "#ff3b3b"; // red
                     resultText.textContent = "Deepfake Detected";
                     resultText.style.color = "#ff3b3b";
-                } else if (current < 80) {
-                    progressBar.style.stroke = "#FFA500"; // orange
-                    resultText.textContent = "Possibly Manipulated";
-                    resultText.style.color = "#FFA500";
+                // } else if (current < 80) {
+                //     progressBar.style.stroke = "#FFA500"; // orange
+                //     resultText.textContent = "Possibly Manipulated";
+                //     resultText.style.color = "#FFA500";
                 } else {
                     progressBar.style.stroke = "#4CAF50"; // green
                     resultText.textContent = "Real Video";
